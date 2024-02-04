@@ -11,7 +11,7 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     public HomeController(ILogger<HomeController> logger) {
         _logger = logger;
-        QboLocal.Initialize();
+        QboLocal.Initialize("../QBO.Shared/Tokens.jsonc");
     }
 
     [HttpGet("/")]

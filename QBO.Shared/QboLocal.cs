@@ -52,25 +52,25 @@ public class QboLocal
 }
 
 
-public class MyOptions
-{
-    public string QbClientId { get; set; }
-    public string QbClientSecret { get; set; }
-}
+// public class MyOptions
+// {
+//     public string QbClientId { get; set; }
+//     public string QbClientSecret { get; set; }
+// }
 
-public static class SecretExtentions
-{
+// public static class SecretExtentions
+// {
 
-    public static IServiceCollection AddSecretsOptions(this IServiceCollection services)
-    {
-        var options = QboLocal.Initialize();
+//     public static IServiceCollection AddSecretsOptions(this IServiceCollection services)
+//     {
+//         var options = QboLocal.Initialize();
 
-        services.AddOptions().Configure<MyOptions>((settings) =>
-        {
-            settings.QbClientId = options.QbClientId;
-            settings.QbClientSecret = options.QbClientSecret;
-        });
+//         services.AddOptions().Configure<MyOptions>((settings) =>
+//         {
+//             settings.QbClientId = options.QbClientId;
+//             settings.QbClientSecret = options.QbClientSecret;
+//         });
 
-        return services;
-    }
-}
+//         return services;
+//     }
+// }
