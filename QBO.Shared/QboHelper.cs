@@ -85,7 +85,7 @@ namespace QBO.Shared
         /// Serializes the static tokens instance (Local.Tokens) and writes the serialized string to the <paramref name="path"/>.
         /// </summary>
         /// <param name="path">Absolute or relative path to the target JSON file to be written.</param>
-        public static void WriteTokensAsJson(QboAuthTokens authTokens, string path = ".\\Tokens.json")
+        public static void WriteTokensAsJson(QboAuthTokens authTokens, string path = "./Tokens.json")
         {
             // Serialize the passed object
             // to a JSON formatted string.
