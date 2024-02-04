@@ -9,9 +9,15 @@ namespace QBO.WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    public HomeController(ILogger<HomeController> logger) {
+    private readonly IWebHostEnvironment _env;
+
+    public HomeController(ILogger<HomeController> logger, IWebHostEnvironment env) {
         _logger = logger;
-        QboLocal.Initialize("../QBO.Shared/Tokens.jsonc");
+        _env = env;
+
+        // Determine the path based on the environment
+        var path = _env.IsProduction() ? "/Tokens.jsonc" : "../QBO.Shared/Tokens.jsonc";
+        QboLocal.Initialize(path);
     }
 
     [HttpGet("/")]
