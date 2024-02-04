@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QBO.WebApp", "QBO.WebApp.csproj", "{77CBF7E1-3B58-4446-9AE9-F73C438A2659}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QB.App", "QB.App.csproj", "{77CBF7E1-3B58-4446-9AE9-F73C438A2659}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

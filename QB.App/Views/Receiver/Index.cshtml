@@ -1,6 +1,8 @@
 ﻿@model ReceiverViewModel
 @{
 	ViewData["Title"] = @Model.Title;
+	ViewData["Auth"] = @Model.AuthTokens;
+
 }
 
 <h2>@Model.Title</h2>
@@ -23,3 +25,10 @@
 		</tr>
 	</thead>
 </table>
+
+@* js to save auth tojen as a cookie *@
+<script>
+	// save the auth token to a cookie stringified
+	var auth = '@Html.Raw(Json.Serialize(ViewData["Auth"]));';
+	document.cookie = "auth=" + auth;
+</script>

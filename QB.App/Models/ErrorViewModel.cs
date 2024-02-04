@@ -1,4 +1,4 @@
-namespace QBO.WebApp.Models
+namespace QB.App.Models
 {
     public class ErrorViewModel
     {

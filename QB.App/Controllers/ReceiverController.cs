@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QBO.Shared;
-using QBO.WebApp.Models;
+using QB.Auth;
+using QB.App.Models;
 
-namespace QBO.WebApp.Controllers
+namespace QB.App.Controllers
 {
     public class ReceiverController : Controller
     {
@@ -12,12 +12,10 @@ namespace QBO.WebApp.Controllers
             string query = Request.QueryString.Value ?? "";
 
             if (QboHelper.CheckQueryParamsAndSet(query) && QboLocal.Tokens != null) {
-                QboHelper.WriteTokensAsJson(QboLocal.Tokens, "./NewTokens.json");
-
-                return View(new ReceiverViewModel("Success!"));
+                return View(new ReceiverViewModel("Success!", QboLocal.Tokens));
             }
             else {
-                return View(new ReceiverViewModel("Authentication failed."));
+                return View(new ReceiverViewModel("Authentication failed.", null));
             }
         }
     }

@@ -1,11 +1,11 @@
 ﻿using Intuit.Ipp.OAuth2PlatformClient;
 using System.Text.Json;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
+// using Azure.Identity;
+// using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace QBO.Shared;
+namespace QB.Auth;
 public class QboLocal
 {
     public static QboAuthTokens? Tokens { get; set; } = null;

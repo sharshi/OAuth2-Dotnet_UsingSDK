@@ -1,10 +1,10 @@
 ﻿using Intuit.Ipp.OAuth2PlatformClient;
 using Microsoft.AspNetCore.Mvc;
-using QBO.Shared;
-using QBO.WebApp.Models;
+using QB.Auth;
+using QB.App.Models;
 using System.Diagnostics;
 
-namespace QBO.WebApp.Controllers;
+namespace QB.App.Controllers;
 
 public class HomeController : Controller
 {
@@ -16,7 +16,7 @@ public class HomeController : Controller
         _env = env;
 
         // Determine the path based on the environment
-        var path = _env.IsProduction() ? "./Tokens.jsonc" : "../QBO.Shared/Tokens.jsonc";
+        var path = _env.IsProduction() ? "./Tokens.jsonc" : "../QB.App/Tokens.jsonc";
         QboLocal.Initialize(path);
     }
 
