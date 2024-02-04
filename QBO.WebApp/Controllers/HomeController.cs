@@ -16,7 +16,7 @@ public class HomeController : Controller
         _env = env;
 
         // Determine the path based on the environment
-        var path = _env.IsProduction() ? "/Tokens.jsonc" : "../QBO.Shared/Tokens.jsonc";
+        var path = _env.IsProduction() ? "./Tokens.jsonc" : "../QBO.Shared/Tokens.jsonc";
         QboLocal.Initialize(path);
     }
 
