@@ -23,10 +23,16 @@ public class HomeController : Controller
     [HttpGet("/")]
     public IActionResult Index()
     {
+        if (Request.Cookies["auth"] != null)
+        {
+            return RedirectToAction("Redirect", "Home");
+        }
+
         return View();
     }
 
     [HttpPost("Redirect")]
+    [HttpGet("Redirect")]
     public IActionResult Redirect()
     {
         return Redirect(QboHelper.GetAuthorizationURL(OidcScopes.Accounting));

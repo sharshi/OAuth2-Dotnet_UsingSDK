@@ -1,16 +1,17 @@
-﻿using QB.Auth;
+﻿using System.Text.Json;
+using System.IO;
+using QB.Auth;
+using QB.App.Services;
 
-namespace QB.App.Models
+namespace QB.App.Models;
+public class ReceiverViewModel
 {
-    public class ReceiverViewModel
+    public ReceiverViewModel(string title, QboAuthTokens? authTokens)
     {
-        public ReceiverViewModel(string title, QboAuthTokens authTokens)
-        {
-            Title = title;
-            AuthTokens = authTokens;
-        }
-
-        public string Title { get; set; }
-        public QboAuthTokens AuthTokens { get; set; }
+        Title = title;
+        AuthTokens = TokenProtector.Protect(JsonSerializer.Serialize(authTokens));
     }
+
+    public string Title { get; set; }
+    public string AuthTokens { get; set; }
 }

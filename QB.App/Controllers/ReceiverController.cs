@@ -12,7 +12,7 @@ namespace QB.App.Controllers
             string query = Request.QueryString.Value ?? "";
 
             if (QboHelper.CheckQueryParamsAndSet(query) && QboLocal.Tokens != null) {
-                return View(new ReceiverViewModel("Success!", QboLocal.Tokens));
+                return View(new ReceiverViewModel("Welcome!", QboLocal.Tokens));
             }
             else {
                 return View(new ReceiverViewModel("Authentication failed.", null));
