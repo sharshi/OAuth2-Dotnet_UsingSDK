@@ -1,0 +1,164 @@
+@model ReceiverViewModel
+@{
+    ViewData["Title"] = @Model.Title;
+    ViewData["Auth"] = @Model.AuthTokens;
+}
+
+<h2>Customer Data</h2>
+<button id="fetchButton">Fetch Customer Info</button>
+<table id="customerTable"></table>
+
+@section Scripts {
+    <script>
+	    var auth = '@Html.Raw(ViewData["Auth"]);';
+	    if (auth) document.cookie = "auth=" + auth;
+        const req = window.indexedDB.open("MyTestDatabase", 3);
+        let db;
+        req.onupgradeneeded = event => {
+            db = event.target.result; // Get the database instance
+            const objectStore = db.createObjectStore("customers", { keyPath: "id" });
+        
+            objectStore.createIndex("id", "id", { unique: true });
+            objectStore.createIndex("name", "name", { unique: false });
+            objectStore.createIndex("email", "email", { unique: false });
+        };
+        
+        req.onsuccess = (event) => {
+            db = event.target.result
+            initData();            
+            document.getElementById('fetchButton').addEventListener('click', function() {
+                fetch('/CustomerInfo')
+                    .then(response => response.json())
+                    .then(data => {
+                        const transaction = db.transaction("customers", "readwrite");
+                        
+                        const store = transaction.objectStore("customers");
+                        
+                        const objectStoreRequest = store.clear();
+                    
+                        objectStoreRequest.onsuccess = () => {
+                            data.forEach(customer => {
+                                store.add({
+                                    id: customer.id,
+                                    name: `${customer.givenName} ${customer.familyName}`,
+                                    email: customer.primaryEmailAddr?.address || "", // Use || instead of ??
+                                });
+                            });
+                            transaction.oncomplete = () => {
+                                console.log("Transaction completed successfully.");
+                            };
+                            transaction.onerror = event => {
+                                console.error("Transaction error:", event.target.error);
+                            };
+                        };
+                        var table = document.getElementById('customerTable');
+                        table.innerHTML = '';
+                        data.forEach(customer => {
+                            var row = table.insertRow();
+                            const cell1 = row.insertCell();
+                            const cell2 = row.insertCell();
+                            const cell3 = row.insertCell();
+                            cell1.textContent = customer.id;
+                            cell2.textContent = customer.givenName + " " + customer.familyName;
+                            cell3.textContent = customer.primaryEmailAddr?.address ?? "";
+                            cell2.contentEditable = true;
+                            cell3.contentEditable = true;
+                            
+                            [cell2, cell3].forEach(cell => {
+                                cell.addEventListener('input', function() {
+                                    let fieldToUpdate;
+                                    if (cell === cell2) {
+                                        fieldToUpdate = 'givenName';
+                                    } else if (cell === cell3) {
+                                        fieldToUpdate = 'primaryEmailAddr';
+                                    }
+                        
+                                    updateCell(cell1.textContent, fieldToUpdate, cell.textContent);
+                                 });
+                            });
+                        });
+                    });
+            });
+
+        };
+        
+        req.onerror = event => {
+            console.error("Error opening IndexedDB:", event.target.error);
+        };
+        
+        function initData() {
+            const transaction = db.transaction("customers", "readonly");
+            const store = transaction.objectStore("customers");
+            const cursorRequest = store.openCursor();
+        
+            var table = document.getElementById('customerTable');
+            table.innerHTML = '';
+        
+            cursorRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    var row = table.insertRow();
+                    const cell1 = row.insertCell();
+                    const cell2 = row.insertCell();
+                    const cell3 = row.insertCell();
+                    cell1.textContent = cursor.value.id;
+                    cell2.textContent = cursor.value.name;
+                    cell3.textContent = cursor.value.email;
+                    cell2.contentEditable = true;
+                    cell3.contentEditable = true;
+        
+                    [cell2, cell3].forEach(cell => {
+                        cell.addEventListener('input', function() {
+                            let fieldToUpdate;
+                            if (cell === cell2) {
+                                fieldToUpdate = 'name';
+                            } else if (cell === cell3) {
+                                fieldToUpdate = 'email';
+                            }
+        
+                            updateCell(cell1.textContent, fieldToUpdate, cell.textContent);
+                        });
+                    });
+        
+                    cursor.continue();
+                }
+            };
+        }
+        
+        function updateCell(id, cell, newValue) {
+            // Start a transaction to update the database
+            const transaction = db.transaction("customers", "readwrite");
+            const store = transaction.objectStore("customers");
+        
+            // Get the current data of the row
+            const getRequest = store.get(id);
+            getRequest.onsuccess = function() {
+                const data = getRequest.result;
+        
+                if (cell === 'name') {
+                    data.name = newValue;
+                } else if (cell === 'email') {
+                    data.email = newValue;
+                }
+        
+                // Put the updated data back into the database
+                const putRequest = store.put(data);
+                putRequest.onsuccess = function() {
+                    console.log('Data updated successfully');
+                    transaction.oncomplete = () => {
+                        console.log("Update Transaction completed successfully.");
+                    };
+                    transaction.onerror = event => {
+                        console.error("Update Transaction error:", event.target.error);
+                    };
+                };
+                putRequest.onerror = function() {
+                    console.error('Error updating data:', putRequest.error);
+                };
+            };
+            getRequest.onerror = function() {
+                console.error('Error getting data:', getRequest.error);
+            };
+        }
+    </script>
+}

@@ -9,7 +9,7 @@ public class ReceiverViewModel
     public ReceiverViewModel(string title, QboAuthTokens? authTokens)
     {
         Title = title;
-        AuthTokens = TokenProtector.Protect(JsonSerializer.Serialize(authTokens));
+        AuthTokens = TokenProtector.Protect(authTokens);
     }
 
     public string Title { get; set; }
