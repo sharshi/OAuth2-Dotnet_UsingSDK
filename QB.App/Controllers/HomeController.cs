@@ -3,21 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using QB.Auth;
 using QB.App.Models;
 using System.Diagnostics;
+using Microsoft.Extensions.Options;
 
 namespace QB.App.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IWebHostEnvironment _env;
+    private readonly IOptions<QboAuthTokens> _config;
 
-    public HomeController(ILogger<HomeController> logger, IWebHostEnvironment env) {
+    public HomeController(ILogger<HomeController> logger, IOptions<QboAuthTokens> config) {
         _logger = logger;
-        _env = env;
-
-        // Determine the path based on the environment
-        var path = _env.IsProduction() ? "./Tokens.jsonc" : "../QB.App/Tokens.jsonc";
-        QboLocal.Initialize(path);
+        _config = config;
+        QboLocal.Initialize(config);
     }
 
     [HttpGet("/")]
@@ -35,7 +33,7 @@ public class HomeController : Controller
     [HttpGet("Redirect")]
     public IActionResult Redirect()
     {
-        return Redirect(QboHelper.GetAuthorizationURL(OidcScopes.Accounting));
+        return Redirect(QboHelper.GetAuthorizationURL([OidcScopes.Accounting], _config));
     }
 
     #region ASP.NET Default Code

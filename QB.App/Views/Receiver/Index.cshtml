@@ -29,6 +29,6 @@
 @* js to save auth tojen as a cookie *@
 <script>
 	// save the auth token to a cookie stringified
-	var auth = '@Html.Raw(Json.Serialize(ViewData["Auth"]));';
+	var auth = '@Html.Raw(ViewData["Auth"]);';
 	document.cookie = "auth=" + auth;
 </script>

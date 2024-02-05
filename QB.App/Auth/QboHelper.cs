@@ -1,8 +1,8 @@
 ﻿
 using Intuit.Ipp.OAuth2PlatformClient;
 using System.Collections.Specialized;
-using System.Text.Json;
 using System.Web;
+using Microsoft.Extensions.Options;
 
 namespace QB.Auth;
 
@@ -13,12 +13,12 @@ public class QboHelper
     /// </summary>
     /// <param name="scopes"></param>
     /// <returns></returns>
-    public static string GetAuthorizationURL(params OidcScopes[] scopes)
+    public static string GetAuthorizationURL(OidcScopes[] scopes, IOptions<QboAuthTokens> options)
     {
         // Initialize the OAuth2Client and
         // AuthTokens if either is null.
         if (QboLocal.Client == null || QboLocal.Tokens == null) {
-            QboLocal.Initialize();
+            QboLocal.Initialize(options);
         }
 
         // 'Local.Client' will never be null here.
@@ -79,29 +79,5 @@ public class QboHelper
                 );
             }
         }
-    }
-
-    /// <summary>
-    /// Serializes the static tokens instance (Local.Tokens) and writes the serialized string to the <paramref name="path"/>.
-    /// </summary>
-    /// <param name="path">Absolute or relative path to the target JSON file to be written.</param>
-    public static void WriteTokensAsJson(QboAuthTokens authTokens, string path = "./Tokens.json")
-    {
-        // Serialize the passed object
-        // to a JSON formatted string.
-        string serialized = JsonSerializer.Serialize(authTokens, new JsonSerializerOptions() {
-            WriteIndented = true,
-        });
-
-        // Create the parent directory
-        // to avoid possible conflicts.
-        Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
-
-        // Write the string to the path.
-        File.WriteAllText(path, serialized);
-    }
-
-    public static string EncriptTokens(QboAuthTokens authTokens) {
-        throw new NotImplementedException();
     }
 }
