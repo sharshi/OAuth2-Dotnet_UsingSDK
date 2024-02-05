@@ -18,7 +18,7 @@ public class QboLocal
 
         if (!string.IsNullOrEmpty(config.Value.ClientId) && !string.IsNullOrEmpty(config.Value.ClientSecret))
         {
-            Client = new(config.Value.ClientId, config.Value.ClientSecret, config.Value.RedirectUrl, "sandbox");
+            Client = new(config.Value.ClientId, config.Value.ClientSecret, config.Value.RedirectUrl, config.Value.Environment);
         }
         else {
             throw new InvalidDataException(
