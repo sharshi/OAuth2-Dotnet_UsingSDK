@@ -4,7 +4,7 @@ Github: https://github.com/sharshi/sample-qb
 ### Technical Details
  - .Net 8
  - CI/CD with Github Actions
- - Azure App Service for hosting
+ - Azure App Service for hosting (TODO: Vey Vault for secrets)
  - App Config for configuration
  - IndexedDB for local storage
  - local AppSettings.json for local configuration
