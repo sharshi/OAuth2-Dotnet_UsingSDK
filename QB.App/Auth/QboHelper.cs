@@ -53,13 +53,14 @@ public class QboHelper
 
             // Use the OAuth2Client to get a new
             // access token from the QBO servers.
-            TokenResponse responce = QboLocal.Client.GetBearerTokenAsync(query["code"]).Result;
+            TokenResponse response = QboLocal.Client.GetBearerTokenAsync(query["code"]).Result;
 
             // Set the token values with the client
             // responce and query parameters.
-            QboLocal.Tokens.AccessToken = responce.AccessToken;
-            QboLocal.Tokens.RefreshToken = responce.RefreshToken;
+            QboLocal.Tokens.AccessToken = response.AccessToken;
+            QboLocal.Tokens.RefreshToken = response.RefreshToken;
             QboLocal.Tokens.RealmId = query["realmId"];
+            QboLocal.Expire = response.AccessTokenExpiresIn;
 
             // Return true. The Tokens have
             // been set as expected.

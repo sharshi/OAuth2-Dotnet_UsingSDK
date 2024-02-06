@@ -10,6 +10,8 @@ namespace QB.Auth;
 public class QboLocal
 {
     public static QboAuthTokens? Tokens { get; set; } = null;
+
+    public static long Expire { get; set; }
     public static OAuth2Client? Client { get; set; } = null;
     
     public static void Initialize(IOptions<QboAuthTokens> config)

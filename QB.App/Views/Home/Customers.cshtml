@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = @Model.Title;
     ViewData["Auth"] = @Model.AuthTokens;
+    ViewData["ExpiresIn"] = @Model.ExpiresIn;
 }
 
 <h2>Customer Data</h2>
@@ -11,7 +12,15 @@
 @section Scripts {
     <script>
 	    var auth = '@Html.Raw(ViewData["Auth"]);';
-	    if (auth) document.cookie = "auth=" + auth;
+	    var expirationMillis = '@Html.Raw(ViewData["ExpiresIn"]);';
+
+        if (auth) {
+            var date = new Date();
+            date.setTime(date.getTime() + expirationMillis);
+            var expires = "; expires=" + date.toUTCString();
+            document.cookie = "auth=" + auth + expires;
+        }
+        
         const req = window.indexedDB.open("MyTestDatabase", 3);
         let db;
         req.onupgradeneeded = event => {

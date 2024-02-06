@@ -45,7 +45,7 @@ public class HomeController : Controller
         string query = Request.QueryString.Value ?? "";
 
         if (QboHelper.CheckQueryParamsAndSet(query) && QboLocal.Tokens != null) {
-            return View("Customers", new ReceiverViewModel("Customers", QboLocal.Tokens));
+            return View("Customers", new ReceiverViewModel("Customers", QboLocal.Expire, QboLocal.Tokens));
         }
         else {
             return View("Error");
@@ -77,7 +77,7 @@ public class HomeController : Controller
     {
         if (Request.Cookies["auth"] != null)
         {
-            // return RedirectToAction("Redirect", "Home");
+            return RedirectToAction("Redirect", "Home");
         }
 
         return View();
