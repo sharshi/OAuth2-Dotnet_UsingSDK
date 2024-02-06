@@ -13,7 +13,6 @@ Github: https://github.com/sharshi/sample-qb
 
  - https://sharshi-qb-int.azurewebsites.net/ connect to QB button returns a token as a cookie that can be used to authenticate with QuickBooks.
 
- - Unimplemented Improvements: the token is not encripted and is stored in the browser's local storage. It should be stored in a secure way and the token should be refreshed when it expires.
 
 ### After authenticating there should be another button that fetches QuickBooks customers and displays it on the screen (also store the data in a data storage)
 
@@ -27,5 +26,13 @@ Github: https://github.com/sharshi/sample-qb
 
  - The `Fetch Customer Info` button fetches the data from QuickBooks and overrides the old data in the `IndexedDB`.
 
+### More:
  - See the data updating in the `IndexedDB` in the browser's dev tools.
  - Initially this was a fork, but I refactored the code to use .Net 8 and Azure App Service for hosting. I also replacede the token logic to make it better for production.
+
+### Unimplemented Improvements:
+
+ - the token is not encripted and is stored in the browser's local storage. It should be stored in a secure way and the token should be refreshed when it expires.
+ - I only display the name and email, there is more data that can be displayed. I was thinking in a master-detail view.
+ - Refactor the transaction logic to be more generic and reusable.
+ - The button should be disabled/display a spinner while the data is being fetched.
