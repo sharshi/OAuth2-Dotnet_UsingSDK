@@ -2,7 +2,7 @@ Live: https://sharshi-qb-int.azurewebsites.net
 
 Github: https://github.com/sharshi/sample-qb
 ### Technical Details
- - .Net 8
+ - .NET 8
  - CI/CD with Github Actions
  - Azure App Service for hosting (TODO: Vey Vault for secrets)
  - App Config for configuration
@@ -28,7 +28,7 @@ Github: https://github.com/sharshi/sample-qb
 
 ### More:
  - See the data updating in the `IndexedDB` in the browser's dev tools.
- - Initially this was a fork, but I refactored the code to use .Net 8 and Azure App Service for hosting. I also replacede the token logic to make it better for production.
+ - Initially this was a fork, but I refactored the code to use .Net 8 and Azure App Service for hosting. I also replaced the token logic to make it better for production.
 
 ### Unimplemented Improvements:
 
